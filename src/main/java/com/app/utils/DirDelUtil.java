@@ -46,7 +46,7 @@ public class DirDelUtil {
         String keywordStr;
         System.out.print("\n是否使用默认关键词？(Y/N):");
         if (YES.equals(sc.next().toUpperCase())) {
-            keywordStr = "bin,target";
+            keywordStr = "bin,target,build";
             System.out.println("默认关键词：" + keywordStr);
         } else {
             System.out.print("请输入关键词(以半角逗号隔开)：");
