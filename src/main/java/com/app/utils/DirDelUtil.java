@@ -21,7 +21,7 @@ public class DirDelUtil {
 
         System.out.print("\n是否使用默认目录？(Y/N):");
         if (YES.equals(sc.next().toUpperCase())) {
-            folder = new File("D:\\Program\\workspace");
+            folder = new File("D:\\Library\\workspace");
             System.out.println("默认目录：" + folder.getAbsolutePath());
             if (!folder.exists()) {
                 System.out.println("目录不存在：" + folder.getAbsolutePath());
