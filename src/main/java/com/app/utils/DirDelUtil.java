@@ -57,7 +57,7 @@ public class DirDelUtil {
         String negaword;
         System.out.print("\n是否使用默认排除项？(Y/N):");
         if (YES.equals(sc.next().toUpperCase())) {
-            negaword = ".metadata,neusoft,ibatis";
+            negaword = ".metadata,neusoft,ibatis,my-workspace-js";
             System.out.println("默认排除项：" + negaword);
         } else {
             System.out.print("请输入排除项(以半角逗号隔开)：");
