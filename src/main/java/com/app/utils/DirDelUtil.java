@@ -12,6 +12,10 @@ import org.apache.commons.lang3.StringUtils;
 
 public class DirDelUtil {
 
+    private static final String DEFAULT_FOLDER = "D:\\Library\\workspace";
+    private static final String DEFAULT_KEYWORD = "bin,target,build";
+    private static final String DEFAULT_NEGAWORD = ".metadata,neusoft,ibatis,ruoyi-ui,my-workspace-js";
+
     private static final String YES = "Y";
 
     private static int folderCounts = 0;
@@ -21,7 +25,7 @@ public class DirDelUtil {
 
         System.out.print("\n是否使用默认目录？(Y/N):");
         if (YES.equals(sc.next().toUpperCase())) {
-            folder = new File("D:\\Library\\workspace");
+            folder = new File(DEFAULT_FOLDER);
             System.out.println("默认目录：" + folder.getAbsolutePath());
             if (!folder.exists()) {
                 System.out.println("目录不存在：" + folder.getAbsolutePath());
@@ -43,21 +47,21 @@ public class DirDelUtil {
             }
         }
 
-        String keywordStr;
+        String keyword;
         System.out.print("\n是否使用默认关键词？(Y/N):");
         if (YES.equals(sc.next().toUpperCase())) {
-            keywordStr = "bin,target,build";
-            System.out.println("默认关键词：" + keywordStr);
+            keyword = DEFAULT_KEYWORD;
+            System.out.println("默认关键词：" + keyword);
         } else {
             System.out.print("请输入关键词(以半角逗号隔开)：");
-            keywordStr = sc.next().toUpperCase();
+            keyword = sc.next().toUpperCase();
         }
-        String[] keywordArray = keywordStr.split(",");
+        String[] keywordArray = keyword.split(",");
 
         String negaword;
         System.out.print("\n是否使用默认排除项？(Y/N):");
         if (YES.equals(sc.next().toUpperCase())) {
-            negaword = ".metadata,neusoft,ibatis,my-workspace-js";
+            negaword = DEFAULT_NEGAWORD;
             System.out.println("默认排除项：" + negaword);
         } else {
             System.out.print("请输入排除项(以半角逗号隔开)：");
@@ -115,7 +119,7 @@ public class DirDelUtil {
             }
 
         } else {
-            System.out.println("关键词：" + keywordStr + "错误！");
+            System.out.println("关键词：" + keyword + "错误！");
             return;
         }
     }
