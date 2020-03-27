@@ -10,23 +10,35 @@ import java.util.Scanner;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.app.config.Config;
+
 public class DirDelUtil {
 
-    private static final String DEFAULT_FOLDER = "D:\\Library\\workspace";
-    private static final String DEFAULT_KEYWORD = "bin,target,build";
-    private static final String DEFAULT_NEGAWORD = ".metadata,neusoft,ibatis,ruoyi-ui,my-workspace-js";
+    public DirDelUtil(Config config) {
+        FOLDER = StringUtils.isBlank(config.getFolder()) ? DEFAULT_FOLDER : config.getFolder();
+        KEYWORD = StringUtils.isBlank(config.getKeyword()) ? DEFAULT_KEYWORD : config.getKeyword();
+        NEGAWORD = StringUtils.isBlank(config.getNegaword()) ? DEFAULT_NEGAWORD : config.getNegaword();
+    }
 
-    private static final String YES = "Y";
+    private String FOLDER;
+    private String KEYWORD;
+    private String NEGAWORD;
 
-    private static int folderCounts = 0;
+    private final String DEFAULT_FOLDER = "D:\\Library\\workspace";
+    private final String DEFAULT_KEYWORD = "target";
+    private final String DEFAULT_NEGAWORD = ".metadata";
 
-    public static void dirDel(Scanner sc) {
+    private final String YES = "Y";
+
+    private int folderCounts = 0;
+
+    public void dirDel(Scanner sc) {
         File folder;
 
-        System.out.print("\n是否使用默认目录？(Y/N):");
+        System.out.print("\n是否使用配置目录？(Y/N):");
         if (YES.equals(sc.next().toUpperCase())) {
-            folder = new File(DEFAULT_FOLDER);
-            System.out.println("默认目录：" + folder.getAbsolutePath());
+            folder = new File(FOLDER);
+            System.out.println("配置目录：" + folder.getAbsolutePath());
             if (!folder.exists()) {
                 System.out.println("目录不存在：" + folder.getAbsolutePath());
                 System.out.println("是否使用当前目录？(Y/N):");
@@ -48,10 +60,10 @@ public class DirDelUtil {
         }
 
         String keyword;
-        System.out.print("\n是否使用默认关键词？(Y/N):");
+        System.out.print("\n是否使用配置关键词？(Y/N):");
         if (YES.equals(sc.next().toUpperCase())) {
-            keyword = DEFAULT_KEYWORD;
-            System.out.println("默认关键词：" + keyword);
+            keyword = KEYWORD;
+            System.out.println("配置关键词：" + keyword);
         } else {
             System.out.print("请输入关键词(以半角逗号隔开)：");
             keyword = sc.next().toUpperCase();
@@ -59,10 +71,10 @@ public class DirDelUtil {
         String[] keywordArray = keyword.split(",");
 
         String negaword;
-        System.out.print("\n是否使用默认排除项？(Y/N):");
+        System.out.print("\n是否使用配置排除项？(Y/N):");
         if (YES.equals(sc.next().toUpperCase())) {
-            negaword = DEFAULT_NEGAWORD;
-            System.out.println("默认排除项：" + negaword);
+            negaword = NEGAWORD;
+            System.out.println("配置排除项：" + negaword);
         } else {
             System.out.print("请输入排除项(以半角逗号隔开)：");
             negaword = sc.next().toUpperCase();
@@ -124,7 +136,7 @@ public class DirDelUtil {
         }
     }
 
-    private static File[] searchFile(File folder, final String keyWord, final String[] negawordArray) {
+    private File[] searchFile(File folder, final String keyWord, final String[] negawordArray) {
 
         File[] subFolders = folder.listFiles(new FileFilter() {
             @Override
