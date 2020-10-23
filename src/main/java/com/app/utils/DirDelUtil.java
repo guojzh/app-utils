@@ -6,10 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-
 import com.app.config.Config;
 
 public class DirDelUtil {
@@ -55,7 +53,17 @@ public class DirDelUtil {
                 folder = new File((new File("")).getAbsolutePath());
                 System.out.println("当前目录：" + folder.getAbsolutePath());
             } else {
-                return;
+                while (true) {
+                    System.out.print("\n请输入目录完整路径：");
+                    String folderPath = sc.next().replace("\\", "/");
+                    folder = new File(folderPath);
+                    if (folder.exists()) {
+                        System.out.println("输入目录：" + folder.getAbsolutePath());
+                        break;
+                    } else {
+                        System.out.println("文件路径或文件格式错误！");
+                    }
+                }
             }
         }
 
@@ -165,7 +173,7 @@ public class DirDelUtil {
             }
         });
 
-        List<File> result = new ArrayList<File>();
+        List<File> result = new ArrayList<>();
 
         if (subFolders != null && subFolders.length > 0) {
             for (int i = 0; i < subFolders.length; i++) {
