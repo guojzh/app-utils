@@ -6,7 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -96,13 +95,15 @@ public class DirDelUtil {
             File[][] results = new File[keywordArray.length][];
 
             for (int i = 0; i < keywordArray.length; i++) {
-                folderCounts = 0;
-                results[i] = searchFile(folder, keywordArray[i], negawordArray);
-                System.out.println("\n在 " + folder + " 以及所有子文件夹中：\n\t\t查找对象：" + keywordArray[i] + "\n\t\t排除对象：" + negaword);
-                System.out.println("\t查找了" + folderCounts + " 个文件(夹)，共找到 " + results[i].length + " 个符合条件的文件(夹)：");
+                if (StringUtils.isNotBlank(keywordArray[i])) {
+                    folderCounts = 0;
+                    results[i] = searchFile(folder, keywordArray[i], negawordArray);
+                    System.out.println("\n在 " + folder + " 以及所有子文件夹中：\n\t查找对象：" + keywordArray[i] + "\n\t排除对象：" + negaword);
+                    System.out.println("\t查找了" + folderCounts + " 个文件(夹)，共找到 " + results[i].length + " 个符合条件的文件(夹)：");
 
-                for (int j = 0; j < results[i].length; j++) {
-                    System.out.println(results[i][j].getAbsolutePath());
+                    for (int j = 0; j < results[i].length; j++) {
+                        System.out.println("==>> " + results[i][j].getAbsolutePath());
+                    }
                 }
             }
 
@@ -128,9 +129,12 @@ public class DirDelUtil {
                             File file = results[i][j];
                             String df = "失败！";
                             try {
-                                FileUtils.deleteDirectory(file);
+                                file.delete();
+                                if (file.exists()) {
+                                    FileUtils.deleteDirectory(file);
+                                }
                                 df = "成功！";
-                            } catch (IOException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             System.out.println(file.getAbsolutePath() + "\t删除" + df);
@@ -155,7 +159,7 @@ public class DirDelUtil {
                 if (negawordArray != null && negawordArray.length > 0) {
                     for (String negaword : negawordArray) {
                         if (StringUtils.isNotBlank(negaword)) {
-                            String fileName = negaword.contains(File.separator) ? pathname.getAbsolutePath() : pathname.getName().toLowerCase();
+                            String fileName = negaword.contains(File.separator) ? pathname.getAbsolutePath() + File.separator : pathname.getName();
                             if (fileName.toLowerCase().contains(negaword.toLowerCase())) {
                                 negawordFlag = false;
                                 break;
@@ -177,12 +181,21 @@ public class DirDelUtil {
 
         if (subFolders != null && subFolders.length > 0) {
             for (int i = 0; i < subFolders.length; i++) {
-                if (keyWord.toLowerCase().equals(subFolders[i].getName().toLowerCase())) {
-                    result.add(subFolders[i]);
+
+                if (subFolders[i].isFile()) {
+                    if (!keyWord.endsWith(File.separator) && subFolders[i].getName().toLowerCase().endsWith(keyWord.toLowerCase())) {
+                        result.add(subFolders[i]);
+                    }
+
                 } else {
-                    File[] foldResult = searchFile(subFolders[i], keyWord, negawordArray);
-                    for (int j = 0; j < foldResult.length; j++) {
-                        result.add(foldResult[j]);
+                    if ((subFolders[i].getAbsolutePath() + File.separator).toLowerCase().endsWith(keyWord.toLowerCase())) {
+                        result.add(subFolders[i]);
+
+                    } else {
+                        File[] foldResult = searchFile(subFolders[i], keyWord, negawordArray);
+                        for (int j = 0; j < foldResult.length; j++) {
+                            result.add(foldResult[j]);
+                        }
                     }
                 }
             }
