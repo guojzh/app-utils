@@ -10,13 +10,13 @@ target/
 
 # idea ignore
 .idea/
+*.iml
 
 # eclipse ignore
 .settings/
 .project
 .classpath
 .factorypath
-*.iml
 
 # temp ignore
 *.log

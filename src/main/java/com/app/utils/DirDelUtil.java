@@ -98,8 +98,8 @@ public class DirDelUtil {
                 if (StringUtils.isNotBlank(keywordArray[i])) {
                     folderCounts = 0;
                     results[i] = searchFile(folder, keywordArray[i], negawordArray);
-                    System.out.println("\n在 " + folder + " 以及所有子文件夹中：\n\t查找对象：" + keywordArray[i] + "\n\t排除对象：" + negaword);
-                    System.out.println("\t查找了" + folderCounts + " 个文件(夹)，共找到 " + results[i].length + " 个符合条件的文件(夹)：");
+                    System.out.println("\n在 " + folder + " 以及所有子文件夹中：查找对象：" + keywordArray[i]);
+                    System.out.println("查找了" + folderCounts + " 个文件(夹)，共找到 " + results[i].length + " 个符合条件的文件(夹)：");
 
                     for (int j = 0; j < results[i].length; j++) {
                         System.out.println("==>> " + results[i][j].getAbsolutePath());
