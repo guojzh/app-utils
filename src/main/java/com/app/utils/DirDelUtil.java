@@ -98,8 +98,8 @@ public class DirDelUtil {
             for (int i = 0; i < keywordArray.length; i++) {
                 folderCounts = 0;
                 results[i] = searchFile(folder, keywordArray[i], negawordArray);
-                System.out.println("\n在 " + folder + " 以及所有子文件夹时查找对象：" + keywordArray[i] + ";  排除对象：" + negaword);
-                System.out.println("查找了" + folderCounts + " 个文件夹，共找到 " + results[i].length + " 个符合条件的文件夹：");
+                System.out.println("\n在 " + folder + " 以及所有子文件夹中：\n\t\t查找对象：" + keywordArray[i] + "\n\t\t排除对象：" + negaword);
+                System.out.println("\t查找了" + folderCounts + " 个文件(夹)，共找到 " + results[i].length + " 个符合条件的文件(夹)：");
 
                 for (int j = 0; j < results[i].length; j++) {
                     System.out.println(results[i][j].getAbsolutePath());
@@ -150,27 +150,23 @@ public class DirDelUtil {
         File[] subFolders = folder.listFiles(new FileFilter() {
             @Override
             public boolean accept(File pathname) {
-                if (pathname.isDirectory()) {
-                    boolean negawordFlag = true;
+                boolean negawordFlag = true;
 
-                    if (negawordArray != null && negawordArray.length > 0) {
-                        for (String negaword : negawordArray) {
-                            if (StringUtils.isNotBlank(negaword)) {
-                                String fileName = negaword.contains(File.separator) ? pathname.getAbsolutePath() : pathname.getName().toLowerCase();
-                                if (fileName.toLowerCase().contains(negaword.toLowerCase())) {
-                                    negawordFlag = false;
-                                    break;
-                                }
+                if (negawordArray != null && negawordArray.length > 0) {
+                    for (String negaword : negawordArray) {
+                        if (StringUtils.isNotBlank(negaword)) {
+                            String fileName = negaword.contains(File.separator) ? pathname.getAbsolutePath() : pathname.getName().toLowerCase();
+                            if (fileName.toLowerCase().contains(negaword.toLowerCase())) {
+                                negawordFlag = false;
+                                break;
                             }
                         }
                     }
+                }
 
-                    if (negawordFlag) {
-                        folderCounts++;
-                        return true;
-                    } else {
-                        return false;
-                    }
+                if (negawordFlag) {
+                    folderCounts++;
+                    return true;
                 } else {
                     return false;
                 }
