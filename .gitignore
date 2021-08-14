@@ -8,11 +8,15 @@ target/
 
 /bin
 
+# idea ignore
+.idea/
+
 # eclipse ignore
 .settings/
 .project
 .classpath
 .factorypath
+*.iml
 
 # temp ignore
 *.log

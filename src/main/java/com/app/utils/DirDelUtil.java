@@ -1,14 +1,15 @@
 package com.app.utils;
 
+import com.app.config.Config;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
-import com.app.config.Config;
 
 public class DirDelUtil {
 
@@ -154,9 +155,12 @@ public class DirDelUtil {
 
                     if (negawordArray != null && negawordArray.length > 0) {
                         for (String negaword : negawordArray) {
-                            if (StringUtils.isNotBlank(negaword) && pathname.getName().toLowerCase().contains(negaword.toLowerCase())) {
-                                negawordFlag = false;
-                                break;
+                            if (StringUtils.isNotBlank(negaword)) {
+                                String fileName = negaword.contains(File.separator) ? pathname.getAbsolutePath() : pathname.getName().toLowerCase();
+                                if (fileName.toLowerCase().contains(negaword.toLowerCase())) {
+                                    negawordFlag = false;
+                                    break;
+                                }
                             }
                         }
                     }

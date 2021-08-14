@@ -1,5 +1,5 @@
 apputils:
   dirdel:
-    folder: D:\\Library\\workspace
-    keyword: target,.history,node_modules
-    negaword: .metadata,rest,intf
+    folder: D:\Library\workspace
+    keyword: target,build,bin,.history,node_modules
+    negaword: .metadata

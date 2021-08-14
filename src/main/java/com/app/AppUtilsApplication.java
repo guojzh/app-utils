@@ -1,14 +1,13 @@
 package com.app;
 
-import java.util.Scanner;
-
+import com.app.config.Config;
+import com.app.utils.DirDelUtil;
+import com.app.utils.Zip7Util;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import com.app.config.Config;
-import com.app.utils.DirDelUtil;
-import com.app.utils.Zip7Util;
+import java.util.Scanner;
 
 @SpringBootApplication
 public class AppUtilsApplication {
